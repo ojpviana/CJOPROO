@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QString>
 
-// Forward declaration para evitar inclusão de UI no header
 namespace Ui {
 class TaskWidget;
 }
@@ -32,4 +31,5 @@ private:
     Ui::TaskWidget *ui;
 };
 
-#endif // TASKWIDGET_H
+#endif 
+
