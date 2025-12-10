@@ -16,18 +16,14 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Carrega as tarefas salvas ao iniciar
     loadTasks();
 
-    // Configura o timer do Pomodoro
     connect(pomodoroTimer, &QTimer::timeout, this, &MainWindow::updatePomodoroTimer);
 
-    // Conecta os radio buttons para mudar o modo do Pomodoro
     connect(ui->radioWork, &QRadioButton::toggled, this, &MainWindow::updatePomodoroMode);
     connect(ui->radioShort, &QRadioButton::toggled, this, &MainWindow::updatePomodoroMode);
     connect(ui->radioLong, &QRadioButton::toggled, this, &MainWindow::updatePomodoroMode);
 
-    // Inicia o estado do Pomodoro
     ui->radioWork->setChecked(true);
     resetPomodoro(true);
 }
@@ -37,7 +33,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-// Salva as tarefas ao fechar a janela
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     saveTasks();
@@ -98,7 +93,6 @@ void MainWindow::saveTasks()
 {
     QJsonArray tasksArray;
 
-    // Salva tarefas pendentes
     for (int i = 0; i < ui->pendingLayout->count(); ++i) {
         TaskWidget *task = qobject_cast<TaskWidget*>(ui->pendingLayout->itemAt(i)->widget());
         if (task) {
@@ -109,7 +103,6 @@ void MainWindow::saveTasks()
         }
     }
 
-    // Salva tarefas concluídas
     for (int i = 0; i < ui->completedLayout->count(); ++i) {
         TaskWidget *task = qobject_cast<TaskWidget*>(ui->completedLayout->itemAt(i)->widget());
         if (task) {
@@ -132,7 +125,7 @@ void MainWindow::loadTasks()
 {
     QFile file("tasks.json");
     if (!file.open(QIODevice::ReadOnly)) {
-        return; // Arquivo não existe ainda, sem problemas.
+        return; 
     }
 
     QByteArray data = file.readAll();
@@ -150,11 +143,9 @@ void MainWindow::loadTasks()
     }
 }
 
-// --- Lógica do Pomodoro ---
-
 void MainWindow::updatePomodoroMode()
 {
-    if (isPomodoroRunning) return; // Não muda o modo enquanto o timer está rodando
+    if (isPomodoroRunning) return; 
 
     if (ui->radioWork->isChecked()) {
         currentMode = Work;
@@ -170,7 +161,7 @@ void MainWindow::on_btnStart_clicked()
 {
     isPomodoroRunning = !isPomodoroRunning;
     if (isPomodoroRunning) {
-        pomodoroTimer->start(1000); // Dispara a cada 1 segundo
+        pomodoroTimer->start(1000); 
         ui->btnStart->setText("Pausar");
     } else {
         pomodoroTimer->stop();
@@ -185,7 +176,7 @@ void MainWindow::on_btnReset_clicked()
 
 void MainWindow::resetPomodoro(bool force)
 {
-    if (isPomodoroRunning && !force) return; // Não reinicia se estiver rodando, a menos que seja forçado
+    if (isPomodoroRunning && !force) return; 
 
     pomodoroTimer->stop();
     isPomodoroRunning = false;
@@ -209,8 +200,7 @@ void MainWindow::updatePomodoroTimer()
                                    .arg(minutes, 2, 10, QChar('0'))
                                    .arg(seconds, 2, 10, QChar('0')));
     } else {
-        // O tempo acabou, reseta o timer
         resetPomodoro(true);
-        // Poderia adicionar um som de notificação aqui
     }
 }
+
