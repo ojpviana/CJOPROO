@@ -21,20 +21,18 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 
 private slots:
-    // Slots da UI
     void on_addTaskButton_clicked();
     void on_taskInput_returnPressed();
     void on_btnStart_clicked();
     void on_btnReset_clicked();
 
-    // Slots personalizados
+
     void handleTaskStatusChanged(TaskWidget *task, bool isCompleted);
     void handleTaskRemoved(TaskWidget *task);
     void updatePomodoroTimer();
     void updatePomodoroMode();
 
 private:
-    // Funções de Lógica
     void addTask(const QString &text, bool isCompleted = false);
     void moveTask(TaskWidget *task, bool isCompleted);
     void saveTasks();
@@ -43,7 +41,7 @@ private:
 
     Ui::MainWindow *ui;
     QTimer *pomodoroTimer;
-    int timeRemaining; // em segundos
+    int timeRemaining; 
     bool isPomodoroRunning;
 
     enum PomodoroMode {
@@ -53,4 +51,5 @@ private:
     };
     PomodoroMode currentMode;
 };
-#endif // MAINWINDOW_H
+#endif
+
