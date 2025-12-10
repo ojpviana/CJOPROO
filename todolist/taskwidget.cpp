@@ -7,7 +7,6 @@ TaskWidget::TaskWidget(const QString &text, bool isCompleted, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // Configura o estado inicial sem emitir sinais
     ui->taskCheckBox->blockSignals(true);
     ui->taskCheckBox->setText(text);
     ui->taskCheckBox->setChecked(isCompleted);
@@ -31,12 +30,11 @@ bool TaskWidget::isCompleted() const
 
 void TaskWidget::on_taskCheckBox_stateChanged(int state)
 {
-    // Emite o sinal para a MainWindow saber da mudança de status
     emit taskStatusChanged(this, state == Qt::Checked);
 }
 
 void TaskWidget::on_deleteButton_clicked()
 {
-    // Emite o sinal para a MainWindow saber que esta tarefa deve ser removida
     emit taskRemoved(this);
 }
+
